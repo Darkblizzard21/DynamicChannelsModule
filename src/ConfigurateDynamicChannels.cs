@@ -112,7 +112,7 @@ namespace DynamicChannels
                             .WithColor(Color.Red);
                     }
 
-                    await command.RespondAsync(embed: embedBuilder.Build());
+                    await command.RespondAsync(embed: embedBuilder.Build(), ephemeral:true);
                     break;
             }
         }

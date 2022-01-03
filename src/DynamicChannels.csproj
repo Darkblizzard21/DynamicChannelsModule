@@ -5,10 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Discord.Net.WebSocket" Version="3.1.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\DiscordNetUtility\src\DiscordNetUtility.csproj" />
     </ItemGroup>
 
