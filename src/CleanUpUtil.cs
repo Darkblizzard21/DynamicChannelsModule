@@ -5,27 +5,26 @@ namespace DynamicChannels
 {
     internal static class CleanUpUtil
     {
-        public static async void CleanUpPermissions(DiscordSocketClient client)
+        public static async void CleanUpPermissions(SocketGuild guild)
         {
             var data = DataUtil.GetData().GetData();
 
-            foreach (var (key, value) in data)
+            if (!data.TryGetValue(guild.Id, out var value))
+                return;
+
+            //await guild.DownloadUsersAsync();
+            foreach (var valuePair in value)
             {
-                var guild = client.GetGuild(key);
-                if (guild == null) continue;
-                foreach (var valuePair in value)
+                var channel = guild.GetChannel(valuePair.Value);
+                if (channel == null) continue;
+                //Clean up
+                var overrides = channel.PermissionOverwrites;
+                foreach (var overwrite in overrides)
                 {
-                    var channel = guild.GetChannel(valuePair.Value);
-                    if (channel == null) continue;
-                    //Clean up
-                    var overrides = channel.PermissionOverwrites;
-                    foreach (var overwrite in overrides)
-                    {
-                        if (overwrite.TargetType != PermissionTarget.User) continue;
-                        var user = guild.GetUser(overwrite.TargetId);
-                        if(user.IsBot) continue;
-                        await channel.RemovePermissionOverwriteAsync(user);
-                    }
+                    if (overwrite.TargetType != PermissionTarget.User) continue;
+                    var user = guild.GetUser(overwrite.TargetId);
+                    if (user.IsBot) continue;
+                    await channel.RemovePermissionOverwriteAsync(user);
                 }
             }
         }

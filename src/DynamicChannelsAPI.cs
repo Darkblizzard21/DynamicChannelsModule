@@ -9,16 +9,16 @@ namespace DynamicChannels
         public static void LoadDynamicChannelsModule(DiscordSocketClient client)
         {
             _client = client;
-            client.Ready += CleanUp;
+            client.GuildAvailable += CleanUp;
             client.UserVoiceStateUpdated += UserVoiceStateUpdate.UserVoiceStateUpdated;
             SlashCommandUtil.AddCommand(new ConfigDynamicChannel());
         }
 
         private static DiscordSocketClient _client;
 
-        private static Task CleanUp()
+        private static Task CleanUp(SocketGuild guild)
         {
-            CleanUpUtil.CleanUpPermissions(_client);
+            CleanUpUtil.CleanUpPermissions(guild);
             _client = null;
             return Task.CompletedTask;
         }
