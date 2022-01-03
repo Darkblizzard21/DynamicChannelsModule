@@ -12,7 +12,7 @@ namespace DynamicChannels
             if (!data.TryGetValue(guild.Id, out var value))
                 return;
 
-            //await guild.DownloadUsersAsync();
+            await guild.DownloadUsersAsync();
             foreach (var valuePair in value)
             {
                 var channel = guild.GetChannel(valuePair.Value);
