@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using System.Threading.Tasks;
+using Discord.WebSocket;
 using DNU;
 
 namespace DynamicChannels
@@ -7,12 +8,20 @@ namespace DynamicChannels
     {
         public static void LoadDynamicChannelsModule(DiscordSocketClient client)
         {
-            var data = DataUtil.GetData();
-            data.SetTextChannelFor(742355539647922246, 742355539647922252, 927321250605461544);
-            DataUtil.SaveData();
-            
+            _client = client;
+            client.Ready += CleanUp;
             client.UserVoiceStateUpdated += UserVoiceStateUpdate.UserVoiceStateUpdated;
             SlashCommandUtil.AddCommand(new ConfigDynamicChannel());
         }
+
+        private static DiscordSocketClient _client;
+
+        private static Task CleanUp()
+        {
+            CleanUpUtil.CleanUpPermissions(_client);
+            _client = null;
+            return Task.CompletedTask;
+        }
+        
     }
 }

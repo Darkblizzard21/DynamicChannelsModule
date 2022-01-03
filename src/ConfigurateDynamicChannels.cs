@@ -8,7 +8,7 @@ using DNU;
 
 namespace DynamicChannels
 {
-    public class ConfigDynamicChannel : SlashCommand
+    internal class ConfigDynamicChannel : SlashCommand
     {
         public override string Name => "config_dynamic_channels";
         public override string Description => "Foo Bar";

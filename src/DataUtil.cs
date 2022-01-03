@@ -89,5 +89,7 @@ namespace DynamicChannels
             pairs = dictionary.Keys.Zip(dictionary.Values).ToList();
             return true;
         }
+
+        public Dictionary<ulong, Dictionary<ulong, ulong>> GetData() => _data;
     }
 }
